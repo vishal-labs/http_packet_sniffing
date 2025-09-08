@@ -1,4 +1,4 @@
-### Objective
+## Objective
 
 - The initial objective of this ambitious project is to
   1. Write an eBPF program which can be modifed at our will that can filter/trace http traffic on the port that we define.
@@ -30,8 +30,9 @@ sudo apt-get install bcc-tools libbcc-examples
 sudo apt install bpftrace
 mount | grep /sys/fs/bpf  //this should already be mounted, but if not then mount it. 
 ```
+3. Create a venv for python to install FastAPI. 
 
-==IMPORTANT==
+IMPORTANT!!
 
 - Along with installing all of the essential files and tools, we also have to create a symlink
 to get all of the files from `include/x86_84` to `include/asm` so that there won't be any issues during the compilation.
@@ -56,13 +57,9 @@ clang -O2 -g -target bpf -c http_packet_sniffer.c -o http_packet_sniffer.o
 
   ```bash
     sudo tc qdisc add dev lo //any other interface that you want to attach to clsact
-```
-
 - attach the program using the command
-
-  ```bash
+  ``` bash
   tc filder add dev <tailnet0>/<lo> ingress/egress bpf obj http_packet_sniffer.o sec tc
-```
 
 3. Use bpftool to verify the loaded program
 
@@ -71,7 +68,7 @@ clang -O2 -g -target bpf -c http_packet_sniffer.c -o http_packet_sniffer.o
 ```
 
 ### Viewing the result
-1. Here, to simulate the incoming http traffic, I created a simple fastapi application which has an endpoint `localhost:port/{id}`.
+1. Here, to simulate the incoming http traffic, I created a simple fastapi application which has an endpoint `localhost:port/{id}` (run `fastapi run main.py`)
 
 2. When the FastAPI application is running, and whenever we use a curl to POST some data to that endpoint, we are basically sending data over the `http` protocol.
 
@@ -82,9 +79,9 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
 ```
 
 ### Next Step?
-1. With this setup, I was able to extact the data that is being sent over the http protocol to the system, and am very well capable of dropping the packets at the NIC itself,
+1. With this setup, I was able to extact the data that is being sent over the http protocol to the system, and am very well capable of filtering the packets at the NIC itself. 
 
-2. For implementation of packet filtering, I am planning to Use Machine Learning by Training a Model on any of the CIC DDoS/HTTP dataset and making it run in the user-space
+2. For implementation of packet filtering, I am planning to Use Machine Learning by Training a Model on any of the CIC DDoS/HTTP dataset and making it run in the user-space. 
 
 3. Whenever the eBPF program detects any incoming HTTP packets, it passes the data inside it to the userspace for validation with the ML model, and according to the prediction, the program is able DROP or PASS the datapacket to the userspace for applications.
 
