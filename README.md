@@ -54,9 +54,13 @@ clang -O2 -g -target bpf -c http_packet_sniffer.c -o http_packet_sniffer.o
 2. My Objective required me to attach the program to Traffic Control( can also be done at `XDP`)
 
 - create a clsact qdisc on the required interface(loopback, eth0 ...etc)
-
-  ```bash
+```bash
+  sudo tc qdisc add dev eth0 clsact
+```
+- Attach the qdisc to the required interface.
+```bash
     sudo tc qdisc add dev lo //any other interface that you want to attach to clsact
+```
 - attach the program using the command
   ``` bash
   tc filder add dev <tailnet0>/<lo> ingress/egress bpf obj http_packet_sniffer.o sec tc
