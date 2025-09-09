@@ -77,7 +77,14 @@ clang -O2 -g -target bpf -c http_packet_sniffer.c -o http_packet_sniffer.o
 ```bash
 sudo cat /sys/kernel/debug/tracing/trace_pipe
 ```
+### Detaching the eBPF program
 
+1. Once you are satisfied with viewing the output, it is time to remove the XDP hookpoint.
+
+```bash
+sudo tc filter del dev lo ingress //to remove the ingress point
+sudo tc qdisc del dev lo clsact  //to remove the qdisc
+```
 ### Next Step?
 1. With this setup, I was able to extact the data that is being sent over the http protocol to the system, and am very well capable of filtering the packets at the NIC itself. 
 
