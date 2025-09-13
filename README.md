@@ -89,6 +89,13 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
 sudo tc filter del dev lo ingress //to remove the ingress point
 sudo tc qdisc del dev lo clsact  //to remove the qdisc
 ```
+### **For this input:**
+```bash
+curl -X POST http://100.82.80.67:8000/test1
+```
+### OUTPUT(visual)
+<img width="922" height="203" alt="SCR-20250914-bgnd" src="https://github.com/user-attachments/assets/b0ef1a83-f3e3-4ef1-b439-55deb16700a6" />
+
 ### Next Step?
 1. With this setup, I was able to extact the data that is being sent over the http protocol to the system, and am very well capable of filtering the packets at the NIC itself. 
 
