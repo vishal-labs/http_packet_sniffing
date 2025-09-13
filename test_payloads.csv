@@ -1,0 +1,36 @@
+payload,is_malicious,attack_type,method,uri
+"GET /index.html HTTP/1.1
+Host: example.com
+
+",False,benign,GET,/index.html
+"POST /login HTTP/1.1
+Host: example.com
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=secret",False,benign,POST,/login
+"GET /search?q=<script>alert(""XSS"")</script> HTTP/1.1
+Host: example.com
+
+",True,XSS,GET,/search
+"POST /login HTTP/1.1
+Host: example.com
+
+username=admin' OR '1'='1&password=anything",True,SQL_Injection,POST,/login
+"GET /file.php?file=../../../etc/passwd HTTP/1.1
+Host: example.com
+
+",True,Directory_Traversal,GET,/file.php
+"GET /page.html?cmd=<!--#exec cmd=""cat /etc/passwd""--> HTTP/1.1
+Host: example.com
+
+",True,SSI,GET,/page.html
+"POST /api/data HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+
+{""query"": ""SELECT * FROM users WHERE id=1""}",False,benign,POST,/api/data
+"GET /normal_page HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+
+",False,benign,GET,/normal_page
