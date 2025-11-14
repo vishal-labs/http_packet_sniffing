@@ -2,9 +2,9 @@
 #include <linux/if_ether.h>
 #include <linux/ip.h>
 #include <linux/tcp.h>
-#include <linux/in.h>          // for IPPROTO_TCP
+#include <linux/in.h>          
 #include <bpf/bpf_helpers.h>
-#include <bpf/bpf_endian.h>    // for bpf_ntohs(), bpf_htons()
+#include <bpf/bpf_endian.h>    
 
 
 char LICENSE[] SEC("license") = "GPL";
